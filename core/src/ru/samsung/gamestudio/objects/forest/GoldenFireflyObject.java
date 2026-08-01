@@ -9,15 +9,11 @@ import ru.samsung.gamestudio.GameResources;
 import ru.samsung.gamestudio.GameSettings;
 
 public class GoldenFireflyObject {
-
     private final Texture texture;
     private final Rectangle bounds;
-
     private float x;
     private float y;
-
     private boolean active;
-
     public GoldenFireflyObject() {
         texture = new Texture(
                 GameResources.GOLDEN_FIREFLY_IMG_PATH

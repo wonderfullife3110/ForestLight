@@ -55,9 +55,6 @@ public class TextView extends View {
 
     @Override
     public void dispose() {
-        /*
-         * Шрифт здесь не удаляем.
-         * Он принадлежит MyGdxGame и используется несколькими экранами.
-         */
+
     }
 }

@@ -3,7 +3,6 @@ package ru.samsung.gamestudio.components;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class View {
-
     protected float x;
     protected float y;
     protected float width;

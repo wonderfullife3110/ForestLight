@@ -8,64 +8,29 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.samsung.gamestudio.GameSettings;
 
 public class BranchPair {
-
     private final BranchObject topBranch;
     private final BranchObject bottomBranch;
-
     private float x;
     private float gapCenterY;
     private float gapSize;
-
     private boolean pointReceived;
-
-    public BranchPair(
-            float startX,
-            Texture topTexture,
-            Texture bottomTexture
-    ) {
+    public BranchPair(float startX, Texture topTexture, Texture bottomTexture) {
         x = startX;
         gapSize = GameSettings.START_BRANCH_GAP;
-
-        gapCenterY = MathUtils.random(
-                GameSettings.MIN_GAP_CENTER_Y,
-                GameSettings.MAX_GAP_CENTER_Y
-        );
-
-        bottomBranch = new BranchObject(
-                bottomTexture,
-                x,
-                0f,
-                GameSettings.BRANCH_WIDTH,
-                GameSettings.BRANCH_HEIGHT
-        );
-
-        topBranch = new BranchObject(
-                topTexture,
-                x,
-                0f,
-                GameSettings.BRANCH_WIDTH,
-                GameSettings.BRANCH_HEIGHT
-        );
-
+        gapCenterY = MathUtils.random(GameSettings.MIN_GAP_CENTER_Y, GameSettings.MAX_GAP_CENTER_Y);
+        bottomBranch = new BranchObject(bottomTexture, x, 0f, GameSettings.BRANCH_WIDTH, GameSettings.BRANCH_HEIGHT);
+        topBranch = new BranchObject(topTexture, x, 0f, GameSettings.BRANCH_WIDTH, GameSettings.BRANCH_HEIGHT);
         pointReceived = false;
-
         updateBranchPositions();
     }
-
     public void update(float delta, float speed) {
         x -= speed * delta;
         updateBranchPositions();
     }
-
     private void updateBranchPositions() {
-        float bottomBranchY =
-                gapCenterY
-                        - gapSize / 2f
-                        - GameSettings.BRANCH_HEIGHT;
+        float bottomBranchY = gapCenterY - gapSize / 2f - GameSettings.BRANCH_HEIGHT;
 
-        float topBranchY =
-                gapCenterY
-                        + gapSize / 2f;
+        float topBranchY = gapCenterY + gapSize / 2f;
 
         bottomBranch.setPosition(
                 x,

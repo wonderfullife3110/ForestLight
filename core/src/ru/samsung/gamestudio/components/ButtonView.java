@@ -23,15 +23,15 @@ public class ButtonView extends View {
             float width,
             float height,
             BitmapFont font,
-            String texturePath,
+            Texture texture,
             String text
     ) {
         super(x, y, width, height);
 
         this.font = font;
+        this.texture = texture;
         this.text = text;
 
-        texture = new Texture(texturePath);
         glyphLayout = new GlyphLayout();
 
         updateTextPosition();
@@ -67,10 +67,16 @@ public class ButtonView extends View {
             text = "";
         }
 
-        glyphLayout.setText(font, text);
+        glyphLayout.setText(
+                font,
+                text
+        );
 
-        textX = x + (width - glyphLayout.width) / 2f;
-        textY = y + (height + glyphLayout.height) / 2f;
+        textX =
+                x + (width - glyphLayout.width) / 2f;
+
+        textY =
+                y + (height + glyphLayout.height) / 2f;
     }
 
     @Override
@@ -81,7 +87,6 @@ public class ButtonView extends View {
 
     @Override
     public void dispose() {
-        texture.dispose();
 
     }
 }

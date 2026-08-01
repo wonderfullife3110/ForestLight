@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import ru.samsung.gamestudio.GameResources;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.components.ButtonView;
 import ru.samsung.gamestudio.components.ParallaxBackgroundView;
 import ru.samsung.gamestudio.components.TextView;
 import ru.samsung.gamestudio.managers.ForestMemoryManager;
 
-public class RestartScreen extends ScreenAdapter {
+public class RestartScreen
+        extends ScreenAdapter {
 
     private final MyGdxGame myGdxGame;
 
@@ -26,73 +26,88 @@ public class RestartScreen extends ScreenAdapter {
     private final ButtonView restartButtonView;
     private final ButtonView menuButtonView;
 
-    private int score;
+    public RestartScreen(
+            MyGdxGame myGdxGame
+    ) {
+        this.myGdxGame =
+                myGdxGame;
 
-    public RestartScreen(MyGdxGame myGdxGame) {
-        this.myGdxGame = myGdxGame;
+        backgroundView =
+                new ParallaxBackgroundView(
+                        myGdxGame.skyTexture,
+                        myGdxGame.farForestTexture,
+                        myGdxGame.nearForestTexture
+                );
 
-        backgroundView = new ParallaxBackgroundView(
-                myGdxGame.skyTexture,
-                myGdxGame.farForestTexture,
-                myGdxGame.nearForestTexture
-        );
+        gameOverTextView =
+                new TextView(
+                        myGdxGame.largeWhiteFont,
+                        215f,
+                        1020f,
+                        "Game Over"
+                );
 
-        gameOverTextView = new TextView(
-                myGdxGame.largeWhiteFont,
-                215f,
-                1020f,
-                "Game Over"
-        );
+        scoreTextView =
+                new TextView(
+                        myGdxGame.commonWhiteFont,
+                        275f,
+                        850f,
+                        "Score: 0"
+                );
 
-        scoreTextView = new TextView(
-                myGdxGame.commonWhiteFont,
-                275f,
-                850f,
-                "Score: 0"
-        );
+        bestScoreTextView =
+                new TextView(
+                        myGdxGame.commonWhiteFont,
+                        285f,
+                        780f,
+                        "Best: 0"
+                );
 
-        bestScoreTextView = new TextView(
-                myGdxGame.commonWhiteFont,
-                285f,
-                780f,
-                "Best: 0"
-        );
+        restartButtonView =
+                new ButtonView(
+                        140f,
+                        570f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        "Restart"
+                );
 
-        restartButtonView = new ButtonView(
-                140f,
-                570f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                "Restart"
-        );
-
-        menuButtonView = new ButtonView(
-                140f,
-                450f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                "Menu"
-        );
+        menuButtonView =
+                new ButtonView(
+                        140f,
+                        450f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        "Menu"
+                );
     }
 
     @Override
     public void show() {
         backgroundView.reset();
 
-        score = myGdxGame.forestGameScreen.getScore();
+        int score =
+                myGdxGame
+                        .forestGameScreen
+                        .getScore();
 
-        ForestMemoryManager.saveBestScore(score);
+        ForestMemoryManager
+                .saveBestScore(
+                        score
+                );
 
         scoreTextView.setText(
                 "Score: " + score
         );
 
         bestScoreTextView.setText(
-                "Best: " + ForestMemoryManager.loadBestScore()
+                "Best: "
+                        + ForestMemoryManager
+                        .loadBestScore()
         );
     }
 
@@ -106,14 +121,12 @@ public class RestartScreen extends ScreenAdapter {
                 myGdxGame.camera.combined
         );
 
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(
+                Color.BLACK
+        );
 
         myGdxGame.batch.begin();
 
-        /*
-         * Фон на экране проигрыша остаётся статичным,
-         * поэтому update() не вызываем.
-         */
         backgroundView.draw(
                 myGdxGame.batch
         );
@@ -146,13 +159,16 @@ public class RestartScreen extends ScreenAdapter {
             return;
         }
 
-        Vector3 touch = new Vector3(
-                Gdx.input.getX(),
-                Gdx.input.getY(),
-                0f
-        );
+        Vector3 touch =
+                new Vector3(
+                        Gdx.input.getX(),
+                        Gdx.input.getY(),
+                        0f
+                );
 
-        myGdxGame.viewport.unproject(touch);
+        myGdxGame.viewport.unproject(
+                touch
+        );
 
         if (restartButtonView.isHit(
                 touch.x,
@@ -177,11 +193,6 @@ public class RestartScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        /*
-         * backgroundView не удаляем:
-         * фоновые текстуры общие и принадлежат MyGdxGame.
-         */
-
         restartButtonView.dispose();
         menuButtonView.dispose();
 

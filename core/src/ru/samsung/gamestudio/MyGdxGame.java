@@ -19,6 +19,7 @@ public class MyGdxGame extends Game {
 
     public FitViewport viewport;
     public OrthographicCamera camera;
+
     public SpriteBatch batch;
     public Vector3 touch;
 
@@ -26,13 +27,13 @@ public class MyGdxGame extends Game {
     public BitmapFont commonWhiteFont;
     public BitmapFont commonBlackFont;
 
-    /*
-     * Общие текстуры фона.
-     * Загружаются только один раз и используются всеми экранами.
-     */
+    // Общие текстуры фона
     public Texture skyTexture;
     public Texture farForestTexture;
     public Texture nearForestTexture;
+
+    // Общая текстура всех кнопок
+    public Texture buttonLongTexture;
 
     public ForestAudioManager forestAudioManager;
 
@@ -44,25 +45,45 @@ public class MyGdxGame extends Game {
     @Override
     public void create() {
         createCameraAndViewport();
-        createFonts();
-        createSharedTextures();
-        createManagers();
-        createScreens();
 
-        setScreen(forestMenuScreen);
+        createFonts();
+
+        createSharedTextures();
+
+        forestAudioManager =
+                new ForestAudioManager();
+
+        forestGameScreen =
+                new ForestGameScreen(this);
+
+        restartScreen =
+                new RestartScreen(this);
+
+        forestMenuScreen =
+                new ForestMenuScreen(this);
+
+        forestSettingsScreen =
+                new ForestSettingsScreen(this);
+
+        setScreen(
+                forestMenuScreen
+        );
     }
 
     private void createCameraAndViewport() {
         batch = new SpriteBatch();
+
         touch = new Vector3();
 
-        camera = new OrthographicCamera();
+        camera =
+                new OrthographicCamera();
 
-        viewport = new FitViewport(
-                GameSettings.SCREEN_WIDTH,
-                GameSettings.SCREEN_HEIGHT,
-                camera
-        );
+        viewport =
+                new FitViewport(
+                        GameSettings.SCREEN_WIDTH,
+                        GameSettings.SCREEN_HEIGHT,
+                        camera
+                );
 
         viewport.apply();
 
@@ -76,23 +97,26 @@ public class MyGdxGame extends Game {
     }
 
     private void createFonts() {
-        largeWhiteFont = FontBuilder.generate(
-                48,
-                Color.WHITE,
-                GameResources.FONT_PATH
-        );
+        largeWhiteFont =
+                FontBuilder.generate(
+                        48,
+                        Color.WHITE,
+                        GameResources.FONT_PATH
+                );
 
-        commonWhiteFont = FontBuilder.generate(
-                24,
-                Color.WHITE,
-                GameResources.FONT_PATH
-        );
+        commonWhiteFont =
+                FontBuilder.generate(
+                        24,
+                        Color.WHITE,
+                        GameResources.FONT_PATH
+                );
 
-        commonBlackFont = FontBuilder.generate(
-                24,
-                Color.BLACK,
-                GameResources.FONT_PATH
-        );
+        commonBlackFont =
+                FontBuilder.generate(
+                        24,
+                        Color.BLACK,
+                        GameResources.FONT_PATH
+                );
     }
 
     private void createSharedTextures() {
@@ -108,9 +132,10 @@ public class MyGdxGame extends Game {
                 GameResources.BACKGROUND_FOREST_NEAR_IMG_PATH
         );
 
-        /*
-         * Линейная фильтрация делает масштабирование фона мягче.
-         */
+        buttonLongTexture = new Texture(
+                GameResources.BUTTON_LONG_BG_IMG_PATH
+        );
+
         skyTexture.setFilter(
                 Texture.TextureFilter.Linear,
                 Texture.TextureFilter.Linear
@@ -125,25 +150,18 @@ public class MyGdxGame extends Game {
                 Texture.TextureFilter.Linear,
                 Texture.TextureFilter.Linear
         );
-    }
 
-    private void createManagers() {
-        forestAudioManager = new ForestAudioManager();
-    }
-
-    private void createScreens() {
-        /*
-         * Сначала создаём игровой экран,
-         * потому что RestartScreen получает из него итоговый счёт.
-         */
-        forestGameScreen = new ForestGameScreen(this);
-        restartScreen = new RestartScreen(this);
-        forestMenuScreen = new ForestMenuScreen(this);
-        forestSettingsScreen = new ForestSettingsScreen(this);
+        buttonLongTexture.setFilter(
+                Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear
+        );
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(
+            int width,
+            int height
+    ) {
         viewport.update(
                 width,
                 height,
@@ -160,10 +178,6 @@ public class MyGdxGame extends Game {
 
     @Override
     public void dispose() {
-        /*
-         * Экраны удаляют только собственные ресурсы.
-         * Общие фоновые текстуры и общие шрифты удаляются ниже.
-         */
         if (forestGameScreen != null) {
             forestGameScreen.dispose();
         }
@@ -194,6 +208,10 @@ public class MyGdxGame extends Game {
 
         if (nearForestTexture != null) {
             nearForestTexture.dispose();
+        }
+
+        if (buttonLongTexture != null) {
+            buttonLongTexture.dispose();
         }
 
         if (largeWhiteFont != null) {

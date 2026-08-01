@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import ru.samsung.gamestudio.GameResources;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.components.ButtonView;
 import ru.samsung.gamestudio.components.ParallaxBackgroundView;
 import ru.samsung.gamestudio.components.TextView;
 import ru.samsung.gamestudio.managers.ForestMemoryManager;
 
-public class ForestSettingsScreen extends ScreenAdapter {
+public class ForestSettingsScreen
+        extends ScreenAdapter {
 
     private final MyGdxGame myGdxGame;
 
@@ -26,61 +26,70 @@ public class ForestSettingsScreen extends ScreenAdapter {
     private final ButtonView clearScoreButtonView;
     private final ButtonView backButtonView;
 
-    public ForestSettingsScreen(MyGdxGame myGdxGame) {
-        this.myGdxGame = myGdxGame;
+    public ForestSettingsScreen(
+            MyGdxGame myGdxGame
+    ) {
+        this.myGdxGame =
+                myGdxGame;
 
-        backgroundView = new ParallaxBackgroundView(
-                myGdxGame.skyTexture,
-                myGdxGame.farForestTexture,
-                myGdxGame.nearForestTexture
-        );
+        backgroundView =
+                new ParallaxBackgroundView(
+                        myGdxGame.skyTexture,
+                        myGdxGame.farForestTexture,
+                        myGdxGame.nearForestTexture
+                );
 
-        titleTextView = new TextView(
-                myGdxGame.largeWhiteFont,
-                230f,
-                1020f,
-                "Settings"
-        );
+        titleTextView =
+                new TextView(
+                        myGdxGame.largeWhiteFont,
+                        230f,
+                        1020f,
+                        "Settings"
+                );
 
-        musicButtonView = new ButtonView(
-                140f,
-                740f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                ""
-        );
+        musicButtonView =
+                new ButtonView(
+                        140f,
+                        740f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        ""
+                );
 
-        soundButtonView = new ButtonView(
-                140f,
-                630f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                ""
-        );
+        soundButtonView =
+                new ButtonView(
+                        140f,
+                        630f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        ""
+                );
 
-        clearScoreButtonView = new ButtonView(
-                140f,
-                520f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                "Clear best score"
-        );
+        clearScoreButtonView =
+                new ButtonView(
+                        140f,
+                        520f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        "Clear best score"
+                );
 
-        backButtonView = new ButtonView(
-                140f,
-                370f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                "Back"
-        );
+        backButtonView =
+                new ButtonView(
+                        140f,
+                        370f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        "Back"
+                );
     }
 
     @Override
@@ -99,14 +108,12 @@ public class ForestSettingsScreen extends ScreenAdapter {
                 myGdxGame.camera.combined
         );
 
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(
+                Color.BLACK
+        );
 
         myGdxGame.batch.begin();
 
-        /*
-         * update() не вызываем:
-         * фон экрана настроек остаётся статичным.
-         */
         backgroundView.draw(
                 myGdxGame.batch
         );
@@ -139,13 +146,16 @@ public class ForestSettingsScreen extends ScreenAdapter {
             return;
         }
 
-        Vector3 touch = new Vector3(
-                Gdx.input.getX(),
-                Gdx.input.getY(),
-                0f
-        );
+        Vector3 touch =
+                new Vector3(
+                        Gdx.input.getX(),
+                        Gdx.input.getY(),
+                        0f
+                );
 
-        myGdxGame.viewport.unproject(touch);
+        myGdxGame.viewport.unproject(
+                touch
+        );
 
         if (musicButtonView.isHit(
                 touch.x,
@@ -167,7 +177,13 @@ public class ForestSettingsScreen extends ScreenAdapter {
                 touch.x,
                 touch.y
         )) {
-            clearBestScore();
+            ForestMemoryManager
+                    .clearBestScore();
+
+            clearScoreButtonView.setText(
+                    "Best score cleared"
+            );
+
             return;
         }
 
@@ -182,58 +198,52 @@ public class ForestSettingsScreen extends ScreenAdapter {
     }
 
     private void toggleMusic() {
-        boolean newMusicValue =
-                !ForestMemoryManager.loadIsMusicOn();
+        boolean newValue =
+                !ForestMemoryManager
+                        .loadIsMusicOn();
 
-        ForestMemoryManager.saveMusicSettings(
-                newMusicValue
-        );
+        ForestMemoryManager
+                .saveMusicSettings(
+                        newValue
+                );
 
-        if (myGdxGame.forestAudioManager != null) {
-            myGdxGame.forestAudioManager
-                    .updateMusicFlag();
-        }
+        myGdxGame.forestAudioManager
+                .updateMusicFlag();
 
         updateButtonTexts();
     }
 
     private void toggleSound() {
-        boolean newSoundValue =
-                !ForestMemoryManager.loadIsSoundOn();
+        boolean newValue =
+                !ForestMemoryManager
+                        .loadIsSoundOn();
 
-        ForestMemoryManager.saveSoundSettings(
-                newSoundValue
-        );
+        ForestMemoryManager
+                .saveSoundSettings(
+                        newValue
+                );
 
-        if (myGdxGame.forestAudioManager != null) {
-            myGdxGame.forestAudioManager
-                    .updateSoundFlag();
-        }
+        myGdxGame.forestAudioManager
+                .updateSoundFlag();
 
         updateButtonTexts();
     }
 
-    private void clearBestScore() {
-        ForestMemoryManager.clearBestScore();
-
-        clearScoreButtonView.setText(
-                "Best score cleared"
-        );
-    }
-
     private void updateButtonTexts() {
-        boolean musicOn =
-                ForestMemoryManager.loadIsMusicOn();
-
-        boolean soundOn =
-                ForestMemoryManager.loadIsSoundOn();
-
         musicButtonView.setText(
-                "Music: " + stateToText(musicOn)
+                "Music: "
+                        + stateToText(
+                        ForestMemoryManager
+                                .loadIsMusicOn()
+                )
         );
 
         soundButtonView.setText(
-                "Sound: " + stateToText(soundOn)
+                "Sound: "
+                        + stateToText(
+                        ForestMemoryManager
+                                .loadIsSoundOn()
+                )
         );
 
         clearScoreButtonView.setText(
@@ -241,17 +251,16 @@ public class ForestSettingsScreen extends ScreenAdapter {
         );
     }
 
-    private String stateToText(boolean enabled) {
-        return enabled ? "ON" : "OFF";
+    private String stateToText(
+            boolean enabled
+    ) {
+        return enabled
+                ? "ON"
+                : "OFF";
     }
 
     @Override
     public void dispose() {
-        /*
-         * backgroundView не удаляем:
-         * фоновые текстуры общие и принадлежат MyGdxGame.
-         */
-
         musicButtonView.dispose();
         soundButtonView.dispose();
         clearScoreButtonView.dispose();

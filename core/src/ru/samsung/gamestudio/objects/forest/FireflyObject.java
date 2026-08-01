@@ -10,22 +10,16 @@ import com.badlogic.gdx.utils.Array;
 import ru.samsung.gamestudio.GameSettings;
 
 public class FireflyObject {
-
     private final Texture texture1;
     private final Texture texture2;
     private final Texture texture3;
-
     private final Animation<TextureRegion> animation;
     private final Rectangle bounds;
-
     private float animationTime;
-
     private float x;
     private float y;
-
     private float velocityY;
     private float rotation;
-
     private final float width;
     private final float height;
 

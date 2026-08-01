@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import ru.samsung.gamestudio.GameResources;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.components.ButtonView;
 import ru.samsung.gamestudio.components.ParallaxBackgroundView;
@@ -27,65 +26,75 @@ public class ForestMenuScreen extends ScreenAdapter {
     private final ButtonView settingsButtonView;
     private final ButtonView exitButtonView;
 
-    public ForestMenuScreen(MyGdxGame myGdxGame) {
-        this.myGdxGame = myGdxGame;
+    public ForestMenuScreen(
+            MyGdxGame myGdxGame
+    ) {
+        this.myGdxGame =
+                myGdxGame;
 
-        backgroundView = new ParallaxBackgroundView(
-                myGdxGame.skyTexture,
-                myGdxGame.farForestTexture,
-                myGdxGame.nearForestTexture
-        );
+        backgroundView =
+                new ParallaxBackgroundView(
+                        myGdxGame.skyTexture,
+                        myGdxGame.farForestTexture,
+                        myGdxGame.nearForestTexture
+                );
 
-        titleTextView = new TextView(
-                myGdxGame.largeWhiteFont,
-                175f,
-                1040f,
-                "Forest Light"
-        );
+        titleTextView =
+                new TextView(
+                        myGdxGame.largeWhiteFont,
+                        175f,
+                        1040f,
+                        "Forest Light"
+                );
 
-        subtitleTextView = new TextView(
-                myGdxGame.commonWhiteFont,
-                180f,
-                960f,
-                "Fly through the magic forest"
-        );
+        subtitleTextView =
+                new TextView(
+                        myGdxGame.commonWhiteFont,
+                        180f,
+                        960f,
+                        "Fly through the magic forest"
+                );
 
-        bestScoreTextView = new TextView(
-                myGdxGame.commonWhiteFont,
-                275f,
-                820f,
-                "Best: 0"
-        );
+        bestScoreTextView =
+                new TextView(
+                        myGdxGame.commonWhiteFont,
+                        275f,
+                        820f,
+                        "Best: 0"
+                );
 
-        playButtonView = new ButtonView(
-                140f,
-                610f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                "Play"
-        );
+        playButtonView =
+                new ButtonView(
+                        140f,
+                        610f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        "Play"
+                );
 
-        settingsButtonView = new ButtonView(
-                140f,
-                500f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                "Settings"
-        );
+        settingsButtonView =
+                new ButtonView(
+                        140f,
+                        500f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        "Settings"
+                );
 
-        exitButtonView = new ButtonView(
-                140f,
-                390f,
-                440f,
-                70f,
-                myGdxGame.commonBlackFont,
-                GameResources.BUTTON_LONG_BG_IMG_PATH,
-                "Exit"
-        );
+        exitButtonView =
+                new ButtonView(
+                        140f,
+                        390f,
+                        440f,
+                        70f,
+                        myGdxGame.commonBlackFont,
+                        myGdxGame.buttonLongTexture,
+                        "Exit"
+                );
     }
 
     @Override
@@ -93,11 +102,14 @@ public class ForestMenuScreen extends ScreenAdapter {
         backgroundView.reset();
 
         bestScoreTextView.setText(
-                "Best: " + ForestMemoryManager.loadBestScore()
+                "Best: "
+                        + ForestMemoryManager
+                        .loadBestScore()
         );
 
         if (myGdxGame.forestAudioManager != null) {
-            myGdxGame.forestAudioManager.playMusic();
+            myGdxGame.forestAudioManager
+                    .playMusic();
         }
     }
 
@@ -111,23 +123,39 @@ public class ForestMenuScreen extends ScreenAdapter {
                 myGdxGame.camera.combined
         );
 
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(
+                Color.BLACK
+        );
 
         myGdxGame.batch.begin();
 
-        /*
-         * update() здесь не вызываем:
-         * фон главного меню должен быть статичным.
-         */
-        backgroundView.draw(myGdxGame.batch);
+        backgroundView.draw(
+                myGdxGame.batch
+        );
 
-        titleTextView.draw(myGdxGame.batch);
-        subtitleTextView.draw(myGdxGame.batch);
-        bestScoreTextView.draw(myGdxGame.batch);
+        titleTextView.draw(
+                myGdxGame.batch
+        );
 
-        playButtonView.draw(myGdxGame.batch);
-        settingsButtonView.draw(myGdxGame.batch);
-        exitButtonView.draw(myGdxGame.batch);
+        subtitleTextView.draw(
+                myGdxGame.batch
+        );
+
+        bestScoreTextView.draw(
+                myGdxGame.batch
+        );
+
+        playButtonView.draw(
+                myGdxGame.batch
+        );
+
+        settingsButtonView.draw(
+                myGdxGame.batch
+        );
+
+        exitButtonView.draw(
+                myGdxGame.batch
+        );
 
         myGdxGame.batch.end();
     }
@@ -137,40 +165,49 @@ public class ForestMenuScreen extends ScreenAdapter {
             return;
         }
 
-        Vector3 touch = new Vector3(
-                Gdx.input.getX(),
-                Gdx.input.getY(),
-                0f
+        Vector3 touch =
+                new Vector3(
+                        Gdx.input.getX(),
+                        Gdx.input.getY(),
+                        0f
+                );
+
+        myGdxGame.viewport.unproject(
+                touch
         );
 
-        myGdxGame.viewport.unproject(touch);
-
-        if (playButtonView.isHit(touch.x, touch.y)) {
+        if (playButtonView.isHit(
+                touch.x,
+                touch.y
+        )) {
             myGdxGame.setScreen(
                     myGdxGame.forestGameScreen
             );
+
             return;
         }
 
-        if (settingsButtonView.isHit(touch.x, touch.y)) {
+        if (settingsButtonView.isHit(
+                touch.x,
+                touch.y
+        )) {
             myGdxGame.setScreen(
                     myGdxGame.forestSettingsScreen
             );
+
             return;
         }
 
-        if (exitButtonView.isHit(touch.x, touch.y)) {
+        if (exitButtonView.isHit(
+                touch.x,
+                touch.y
+        )) {
             Gdx.app.exit();
         }
     }
 
     @Override
     public void dispose() {
-        /*
-         * backgroundView.dispose() не вызываем:
-         * фоновые текстуры общие и удаляются в MyGdxGame.
-         */
-
         playButtonView.dispose();
         settingsButtonView.dispose();
         exitButtonView.dispose();
